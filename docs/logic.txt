@@ -1,0 +1,23 @@
+main
+	window
+		status bar listens to statistics
+		field panel listens to field
+	mouse
+		buttons
+			left
+			right
+			
+		events
+			click()	
+	field			
+		cells
+			mined cell
+			clear cell
+				bomb count
+
+			states
+				hidden
+				hidden & flagged			
+				revealed	
+	statistics					
+		time
