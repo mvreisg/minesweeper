@@ -9,8 +9,9 @@ public class FieldInfo {
     private int cellHeight;
     private int minedCellsCount;
     private int flaggedCellsCount;
+    private boolean detonated;
     
-    public FieldInfo(Cell[][] cells, int rows, int columns, int cellWidth, int cellHeight, int minedCellsCount, int flaggedCellsCount){
+    public FieldInfo(Cell[][] cells, int rows, int columns, int cellWidth, int cellHeight, int minedCellsCount, int flaggedCellsCount, boolean detonated){
         this.cells = cells;
         this.rows = rows;
         this.columns = columns;
@@ -18,6 +19,7 @@ public class FieldInfo {
         this.cellHeight = cellHeight;
         this.minedCellsCount = minedCellsCount;
         this.flaggedCellsCount = flaggedCellsCount;
+        this.detonated = detonated;
     }
     
     public Cell[][] getCells(){
@@ -46,6 +48,10 @@ public class FieldInfo {
     
     public int getFlaggedCellsCount(){
         return this.flaggedCellsCount;
+    }
+    
+    public boolean getDetonated(){
+        return this.detonated;
     }
     
 }

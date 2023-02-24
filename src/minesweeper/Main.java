@@ -1,6 +1,5 @@
 package minesweeper;
 
-import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import minesweeper.gui.FieldPanel;

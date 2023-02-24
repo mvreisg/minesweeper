@@ -39,7 +39,12 @@ public class Match implements FieldListener, StatisticsListener {
 
     @Override
     public void stateChanged(FieldInfo info) {
-        
+        if (info.getFlaggedCellsCount() == info.getMinedCellsCount()){
+            stateChanged(new MatchInfo(MatchState.WIN));
+        }
+        if (info.getDetonated()){
+            stateChanged(new MatchInfo(MatchState.LOST));
+        }
     }
     
     @Override

@@ -13,7 +13,8 @@ public class Field implements MouseListener, MatchListener {
     private int cellHeight;
     private Cell[][] cells;
     private int minedCellsCount;
-    private int flaggedCellsCount;    
+    private int flaggedCellsCount;
+    private boolean detonated;
     
     private ArrayList<FieldListener> listeners;
     
@@ -53,6 +54,7 @@ public class Field implements MouseListener, MatchListener {
     }
     
     private void generate(){
+        detonated = false;
         Random random = new Random();
         for (int r = 0; r < rows; r++){
             for (int c = 0; c < columns; c++){
@@ -113,6 +115,7 @@ public class Field implements MouseListener, MatchListener {
                                     }
                                     if (cell instanceof MinedCell){
                                         revealAll();
+                                        detonated = true;
                                     }
                                     break;
                             }
@@ -203,7 +206,8 @@ public class Field implements MouseListener, MatchListener {
                 cellWidth, 
                 cellHeight, 
                 minedCellsCount, 
-                flaggedCellsCount
+                flaggedCellsCount,
+                detonated
             )
         );
     }
