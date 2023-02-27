@@ -2,10 +2,10 @@ package minesweeper.model;
 
 import java.util.ArrayList;
 import java.util.Random;
-import minesweeper.inputs.MouseInfo;
-import minesweeper.inputs.MouseListener;
+import minesweeper.gui.FieldPanelListener;
+import minesweeper.gui.MouseInfo;
 
-public class Field implements MouseListener, MatchListener {
+public class Field implements FieldPanelListener, MatchListener {
     
     private int rows;
     private int columns;
@@ -213,11 +213,11 @@ public class Field implements MouseListener, MatchListener {
     }
     
     private void stateChanged(FieldInfo info){
-        listeners.forEach((listener) -> listener.stateChanged(info));
+        listeners.forEach((listener) -> listener.fieldStateChanged(info));
     }
 
     @Override
-    public void stateChanged(MatchInfo info) {
+    public void matchStateChanged(MatchInfo info) {
         switch (info.getState()) {
             default:
                 throw new RuntimeException();

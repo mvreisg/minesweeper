@@ -2,12 +2,14 @@ package minesweeper.model;
 
 import java.util.ArrayList;
 import javax.swing.Timer;
+import minesweeper.gui.MouseInfo;
+import minesweeper.gui.StatusBarListener;
 import static minesweeper.model.MatchState.IN_PROGRESS;
 import static minesweeper.model.MatchState.LOST;
 import static minesweeper.model.MatchState.STARTING;
 import static minesweeper.model.MatchState.WIN;
 
-public class Statistics implements MatchListener {
+public class Statistics implements StatusBarListener, MatchListener {
     
     private double seconds;
     private Timer timer;
@@ -49,11 +51,11 @@ public class Statistics implements MatchListener {
     }
     
     private void stateChanged(StatisticsInfo info){
-        listeners.forEach((listener) -> listener.stateChanged(info));
+        listeners.forEach((listener) -> listener.statisticsStateChanged(info));
     }
 
     @Override
-    public void stateChanged(MatchInfo info) {
+    public void matchStateChanged(MatchInfo info) {
         switch (info.getState()) {
             default:
                 throw new RuntimeException();
@@ -69,6 +71,11 @@ public class Statistics implements MatchListener {
                 stop();
                 break;
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseInfo info) {
+        
     }
     
 }

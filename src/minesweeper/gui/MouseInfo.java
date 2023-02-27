@@ -1,26 +1,26 @@
-package minesweeper.inputs;
+package minesweeper.gui;
 
 public class MouseInfo {
     
     private int x;
     private int y;
-    private MouseButtons button;
+    private MouseButton button;
     
-    public MouseInfo(int x, int y, MouseButtons button){
+    public MouseInfo(int x, int y, MouseButton button){
         this.x = x;
         this.y = y;
         this.button = button;
     }
-    
-    public int getX(){
+
+    public int getX() {
         return this.x;
     }
     
-    public int getY(){
+    public int getY() {
         return this.y;
     }
     
-    public MouseButtons getButton(){
+    public MouseButton getButton(){
         return this.button;
     }
     

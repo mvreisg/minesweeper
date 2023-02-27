@@ -2,9 +2,7 @@ package minesweeper.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import minesweeper.gui.IFieldPanel;
-import minesweeper.gui.IStatusBar;
-import minesweeper.inputs.Mouse;
+import minesweeper.gui.IFrame;
 
 public class Match implements FieldListener, StatisticsListener {
     
@@ -24,21 +22,9 @@ public class Match implements FieldListener, StatisticsListener {
     public MatchState getState(){
         return this.state;
     }
-    
-    public void receiveMouseHandler(Mouse mouse){
-        mouse.listen(field);
-    }
-    
-    public void receiveFieldComponent(IFieldPanel component){
-        field.listen((FieldListener)component);
-    }
-    
-    public void receiveStatisticsComponent(IStatusBar component){
-        statistics.listen((StatisticsListener)component);
-    }
 
     @Override
-    public void stateChanged(FieldInfo info) {
+    public void fieldStateChanged(FieldInfo info) {
         if (info.getFlaggedCellsCount() == info.getMinedCellsCount()){
             stateChanged(new MatchInfo(MatchState.WIN));
         }
@@ -48,11 +34,15 @@ public class Match implements FieldListener, StatisticsListener {
     }
     
     @Override
-    public void stateChanged(StatisticsInfo info) {
+    public void statisticsStateChanged(StatisticsInfo info) {
         
     }
     
-    public void start(){
+    public void start(IFrame frame){
+        frame.getIFieldPanel().listen(field);
+        frame.getIStatusBar().listen(statistics);
+        field.listen(frame.getIFieldPanel().getFieldListener());
+        statistics.listen(frame.getIStatusBar().getStatisticsListener());
         listen(field);
         listen(statistics);
         field.listen(this);
@@ -75,7 +65,7 @@ public class Match implements FieldListener, StatisticsListener {
     }
     
     private void stateChanged(MatchInfo info){
-        listeners.forEach((listener) -> listener.stateChanged(info));
+        listeners.forEach((listener) -> listener.matchStateChanged(info));
     }
     
 }

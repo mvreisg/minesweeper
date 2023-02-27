@@ -2,6 +2,6 @@ package minesweeper.model;
 
 public interface FieldListener {
     
-    void stateChanged(FieldInfo info);
+    void fieldStateChanged(FieldInfo info);
     
 }

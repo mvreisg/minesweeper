@@ -2,6 +2,6 @@ package minesweeper.model;
 
 public interface MatchListener {
 
-    void stateChanged(MatchInfo info);
+    void matchStateChanged(MatchInfo info);
     
 }

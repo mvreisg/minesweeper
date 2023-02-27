@@ -4,21 +4,29 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 import minesweeper.model.Cell;
 import minesweeper.model.ClearCell;
 import minesweeper.model.FieldInfo;
 import minesweeper.model.FieldListener;
 import minesweeper.model.MinedCell;
 
-public class FieldPanel extends JComponent implements IFieldPanel, FieldListener {
+public class FieldPanel extends JComponent implements MouseListener, IFieldPanel, FieldListener {
+    
+    private List<FieldPanelListener> listeners;
     
     private BufferedImage image;
     
     public FieldPanel(){
         super();
+        listeners = new ArrayList<>();
         image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     }
 
@@ -58,7 +66,7 @@ public class FieldPanel extends JComponent implements IFieldPanel, FieldListener
     }
 
     @Override
-    public void stateChanged(FieldInfo info) {
+    public void fieldStateChanged(FieldInfo info) {
         System.out.println("a");
         Random random = new Random();
         image = new BufferedImage(info.getCellWidth() * info.getColumns(), info.getCellHeight() * info.getRows(), BufferedImage.TYPE_INT_ARGB);
@@ -113,6 +121,67 @@ public class FieldPanel extends JComponent implements IFieldPanel, FieldListener
             }
         }
         repaint();
+    }       
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("sdee");
+        MouseButton button = null;
+        if (SwingUtilities.isLeftMouseButton(e)){
+            button = MouseButton.LEFT;
+        }
+        else if (SwingUtilities.isRightMouseButton(e)){
+            button = MouseButton.RIGHT;
+        }
+        else if (SwingUtilities.isMiddleMouseButton(e)){
+            button = MouseButton.MIDDLE;
+        }
+        else{
+            throw new RuntimeException("???");
+        }
+        triggerMouseClicked(new MouseInfo(e.getX(), e.getY(), button));
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
+    
+    @Override
+    public void listen(FieldPanelListener listener){
+        if (listeners.contains(listener)){
+            return;
+        }
+        listeners.add(listener);
+    }
+    
+    @Override
+    public void unlisten(FieldPanelListener listener){
+        if (!listeners.contains(listener)){
+            return;
+        }
+        listeners.remove(listener);
+    }
+    
+    private void triggerMouseClicked(MouseInfo info){
+        listeners.forEach((listener) -> listener.mouseClicked(info));
+    }
+
+    @Override
+    public void startIFieldPanel() {
+        addMouseListener(this);
+    }
+
+    @Override
+    public FieldListener getFieldListener() {
+        return this;
     }
     
 }
